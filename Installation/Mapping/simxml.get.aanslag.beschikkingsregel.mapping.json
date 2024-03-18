@@ -2,7 +2,7 @@
   "title": "GetAanslagBeschikkingsregel",
   "$id": "https://dowr.simxml.nl/mapping/simxml.get.aanslag.beschikkingsregel.mapping.json",
   "$schema": "https://docs.commongateway.nl/schemas/Mapping.schema.json",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "passTrough": false,
   "mapping": {
     "@soortEntiteit": "R",
@@ -12,21 +12,21 @@
     "BSK.beginDatumWOZTijdVak": "{{ aanslag.belastingJaar ~ '0101' }}",
     "BSK.eindDatumWOZTijdVak": "{% set belastingjaar = aanslag.belastingJaar ~ '-01-01' %}{{ belastingjaar|date_modify(\"+1 year\")|date(\"Ymd\") }}",
     "BSK.waardePeilJaar": "{% set belastingjaar = aanslag.belastingJaar ~ '-01-01' %}{{ belastingjaar|date_modify(\"-1 year\")|date(\"Y\") }}",
-    "BSK.indicatieBezwaar": "{% if value.bezwaarMogelijk == true %}J{% else %}N{% endif %}",
+    "BSK.indicatieBezwaar": "{% if bezwaarMogelijk == true %}J{% else %}N{% endif %}",
     "BSK.extraElementen.StUF:extraElement.0.@naam": "beschikkingSleutel",
-    "BSK.extraElementen.StUF:extraElement.0.#": "{{ value.sleutelBeschikkingsregel }}",
+    "BSK.extraElementen.StUF:extraElement.0.#": "{{ sleutelBeschikkingsregel }}",
     "BSK.BSKWRD.@soortEntiteit": "R",
     "BSK.BSKWRD.WRD.@soortEntiteit": "F",
-    "BSK.BSKWRD.WRD.heffingsmaatstafOZB": "{{ value.vastgesteldeWaarde }}",
+    "BSK.BSKWRD.WRD.heffingsmaatstafOZB": "{{ vastgesteldeWaarde }}",
     "BSK.BSKWRD.WRD.heffingsmaatstafOZBGebruikers": "0",
-    "BSK.BSKWRD.WRD.vastgesteldeWaarde": "{{ value.vastgesteldeWaarde }}",
+    "BSK.BSKWRD.WRD.vastgesteldeWaarde": "{{ vastgesteldeWaarde }}",
     "BSK.BSKWRD.WRD.waardePeilDatum": "{% set belastingjaar = aanslag.belastingJaar ~ '-01-01' %}{{ belastingjaar|date_modify(\"-1 year\")|date(\"Ymd\") }}",
     "BSK.BSKWRD.WRD.WRDWOZ.@soortEntiteit": "R",
     "BSK.BSKWRD.WRD.WRDWOZ.WOZ.@soortEntiteit": "F",
-    "BSK.BSKWRD.WRD.WRDWOZ.WOZ.WOZObjectNummer": "{{ value.wozObjectnummer }}",
+    "BSK.BSKWRD.WRD.WRDWOZ.WOZ.WOZObjectNummer": "{{ wozObjectnummer }}",
     "BSK.BSKWRD.WRD.WRDWOZ.WOZ.omschrijvingWOZObject.@xsi:nil": "true",
     "BSK.BSKWRD.WRD.WRDWOZ.WOZ.omschrijvingWOZObject.@StUF:noValue": "geenWaarde",
-    "BSK.BSKWRD.WRD.WRDWOZ.WOZ.WOZADRHFD": "{% if value.embedded.adres is defined and value.embedded.adres is not empty %}{% set beschikkingsregelAdres = [] %}{% set beschikkingsregelAdres = beschikkingsregelAdres|merge(value.embedded.adres) %}{{ map(\"https://dowr.simxml.nl/mapping/simxml.adres.mapping.json\", beschikkingsregelAdres)|json_encode }}{% else %}\"\"{% endif %}"
+    "BSK.BSKWRD.WRD.WRDWOZ.WOZ.WOZADRHFD": "{% if adres is defined and adres is not empty %}{{ map(\"https://dowr.simxml.nl/mapping/simxml.adres.mapping.json\", adres)|json_encode }}{% else %}\"\"{% endif %}"
   },
   "cast": {
     "BSK.BSKWRD.WRD.WRDWOZ.WOZ.WOZADRHFD": ["jsonToArray", "unsetIfValue=="]

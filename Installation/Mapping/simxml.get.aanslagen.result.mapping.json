@@ -2,7 +2,7 @@
   "title": "GetAanslagenResult",
   "$id": "https://dowr.simxml.nl/mapping/simxml.get.aanslagen.result.mapping.json",
   "$schema": "https://docs.commongateway.nl/schemas/Mapping.schema.json",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "passTrough": false,
   "mapping": {
     "@soortEntiteit": "F",
@@ -40,9 +40,9 @@
     "BLJARD.0.ARD.keuzeOmschrijvingRedenBezwaar": "Placeholder, to do, make showing bezwaren abstract",
     "BLJPRS.@soortEntiteit": "R",
     "BLJPRS.PRS.@soortEntiteit": "F",
-    "BLJPRS.PRS.bsn-nummer": "{{ value.embedded.belastingplichtige.burgerservicenummer }}",
-    "BLJASL": "{% if value.embedded.aanslagregels is defined %}{% set aanslagregels = [] %}{% set aanslagregels = aanslagregels|merge(value.embedded.aanslagregels) %}{{ map(\"https://dowr.simxml.nl/mapping/simxml.get.aanslag.aanslagregel.mapping.json\", aanslagregels, true)|json_encode }}{% else %}\"\"{% endif %}",
-    "BLJBSK": "{% if value.embedded.beschikkingsregels is defined %}{% set beschikkingsregels = [] %}{% set beschikkingsregels = beschikkingsregels|merge(value.embedded.beschikkingsregels) %}{{ map(\"https://dowr.simxml.nl/mapping/simxml.get.aanslag.beschikkingsregel.mapping.json\", {'listInput': beschikkingsregels, 'aanslag': value}, true)|json_encode }}{% else %}\"\"{% endif %}"
+    "BLJPRS.PRS.bsn-nummer": "{{ value.belastingplichtige.burgerservicenummer }}",
+    "BLJASL": "{% if value.aanslagregels is defined %}{{ map(\"https://dowr.simxml.nl/mapping/simxml.get.aanslag.aanslagregel.mapping.json\", value.aanslagregels, true)|json_encode }}{% else %}\"\"{% endif %}",
+    "BLJBSK": "{% if value.beschikkingsregels is defined %}{{ map(\"https://dowr.simxml.nl/mapping/simxml.get.aanslag.beschikkingsregel.mapping.json\", {'listInput': value.beschikkingsregels, 'aanslag': value}, true)|json_encode }}{% else %}\"\"{% endif %}"
   },
   "cast": {
     "BLJASL": ["jsonToArray", "unsetIfValue=="],
